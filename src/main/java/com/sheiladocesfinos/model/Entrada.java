@@ -6,11 +6,14 @@
 package com.sheiladocesfinos.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,16 +21,20 @@ import javax.persistence.Table;
  * @author ricardo
  */
 @Entity
-@Table(name = "cidade")
-class Cidade implements Serializable{
+@Table(name = "entrada")
+public class Entrada implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue
     private Long id;
-    @Column(nullable = false)
-    private String nome;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal valor_entrada;
+    
+    @OneToOne
+    @JoinColumn(name = "forma")
+    private Forma forma;
 
     public Long getId() {
         return id;
@@ -37,18 +44,26 @@ class Cidade implements Serializable{
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public BigDecimal getValor_entrada() {
+        return valor_entrada;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setValor_entrada(BigDecimal valor_entrada) {
+        this.valor_entrada = valor_entrada;
+    }
+
+    public Forma getForma() {
+        return forma;
+    }
+
+    public void setForma(Forma forma) {
+        this.forma = forma;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -60,14 +75,12 @@ class Cidade implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Cidade other = (Cidade) obj;
+        final Entrada other = (Entrada) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
-    
-    
     
     
     
