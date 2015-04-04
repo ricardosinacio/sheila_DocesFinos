@@ -6,17 +6,33 @@
 package com.sheiladocesfinos.model;
 
 import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author ricardo
  */
+@Entity
+@Table(name = "fornecedor")
 public class Fornecedor implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
+    @Id
+    @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private String nomeFornecedor;
+    
+    @OneToOne
+    @JoinColumn(name = "tipoProduto")
     private TipoProduto tipoProduto;
 
     public Long getId() {
@@ -42,6 +58,29 @@ public class Fornecedor implements Serializable{
     public void setTipoProduto(TipoProduto tipoProduto) {
         this.tipoProduto = tipoProduto;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Fornecedor other = (Fornecedor) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
     

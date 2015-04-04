@@ -6,19 +6,37 @@
 package com.sheiladocesfinos.model;
 
 import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author ricardo
  */
+@Entity
+@Table(name = "local")
 class Local implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
+    @Id
+    @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private String nomeLocal;
+    @Column(nullable = false)
     private String endereco;
+    @Column(nullable = false)
     private String telefone;
+    
+    @OneToOne
+    @JoinColumn(name = "cidade")
     private Cidade cidade;
 
     public Long getId() {
@@ -59,6 +77,28 @@ class Local implements Serializable{
 
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Local other = (Local) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
     
     
